@@ -1,0 +1,5 @@
+[versions]
+assertj="3.23.1"
+
+[libraries]
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
