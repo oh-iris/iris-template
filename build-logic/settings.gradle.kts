@@ -1,18 +1,11 @@
-//@file:Suppress("UnstableApiUsage")
-//
-//dependencyResolutionManagement {
-//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-//    repositories {
-//        google()
-//        mavenLocal()
-//        mavenCentral()
-//        gradlePluginPortal()
-//    }
-//    versionCatalogs {
-//        create("libs") {
-//            from(files("../gradle/libs.versions.toml"))
-//        }
-//    }
-//}
+@file:Suppress("UnstableApiUsage")
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
+}
 
 rootProject.name = "build-logic"
