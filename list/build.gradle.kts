@@ -5,9 +5,9 @@
  */
 
 plugins {
-    id("iris.java-library-conventions")
+  id("com.iris.dependency")
 }
 
-//dependencies {
-//    implementation(libs.assertj.core)
-//}
+dependencies {
+  implementation(Google.material)
+}
