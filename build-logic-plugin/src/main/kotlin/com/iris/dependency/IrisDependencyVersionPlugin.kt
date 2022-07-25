@@ -11,6 +11,7 @@ import org.gradle.api.Project
  */
 class IrisDependencyVersionPlugin : Plugin<Project> {
   override fun apply(project: Project) {
-
+    project.plugins.apply("java")
+    project.plugins.apply("java-library")
   }
 }
