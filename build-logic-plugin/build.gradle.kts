@@ -18,9 +18,9 @@ dependencies {
 
 gradlePlugin {
   plugins {
-    create("irisDependencyVersionPlugin") {
-      id = "com.iris.dependency"
-      implementationClass = "com.iris.dependency.IrisDependencyVersionPlugin"
+    create("iris-base-plugin") {
+      id = "com.hantasmate.iris.plugin.base"
+      implementationClass = "com.hantasmate.iris.plugin.base.IrisBasePlugin"
     }
   }
 }

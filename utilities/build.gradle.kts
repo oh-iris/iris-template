@@ -5,9 +5,9 @@
  */
 
 plugins {
-    id("iris.java-library-conventions")
+  id("iris.java-library-conventions")
 }
 
 dependencies {
-    api(project(":list"))
+  api(project(":list"))
 }

@@ -4,7 +4,7 @@
 package ktapp.app;
 
 class MessageUtils {
-    public static String getMessage() {
-        return "Hello      World!";
-    }
+  public static String getMessage() {
+    return "Hello      World!";
+  }
 }

@@ -5,15 +5,15 @@
  */
 
 plugins {
-    id("iris.java-application-conventions")
+  id("iris.java-application-conventions")
 }
 
 dependencies {
-    implementation("org.apache.commons:commons-text")
-    implementation(project(":utilities"))
+  implementation("org.apache.commons:commons-text")
+  implementation(project(":utilities"))
 }
 
 application {
-    // Define the main class for the application.
-    mainClass.set("ktapp.app.App")
+  // Define the main class for the application.
+  mainClass.set("ktapp.app.App")
 }

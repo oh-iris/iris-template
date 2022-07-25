@@ -5,9 +5,17 @@
  */
 
 plugins {
-  id("com.iris.dependency")
+  id("com.hantasmate.iris.plugin.base")
 }
 
+irisBase {
+  name.set("123")
+  version.set(321)
+}
+
+println(irisBase.name.get())
+println(irisBase.version.get())
+
 dependencies {
-  implementation(Google.material)
+//  implementation(myex.libs.findLibrary("assertj-core").get())
 }
