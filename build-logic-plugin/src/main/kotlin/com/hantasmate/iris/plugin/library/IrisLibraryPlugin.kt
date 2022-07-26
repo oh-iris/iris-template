@@ -12,8 +12,8 @@ import org.gradle.api.Project
  * @author tabuyos
  * @since 2022/7/25
  */
-class IrisLibraryPlugin : IrisPlugin {
-  override fun apply(target: Project) {
+class IrisLibraryPlugin : IrisPlugin() {
+  override fun apply(project: Project) {
     TODO("Not yet implemented")
   }
 }

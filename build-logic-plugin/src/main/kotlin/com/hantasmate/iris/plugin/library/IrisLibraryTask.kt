@@ -11,5 +11,5 @@ import com.hantasmate.iris.plugin.IrisTask
  * @author tabuyos
  * @since 2022/7/25
  */
-class IrisLibraryTask : IrisTask {
+class IrisLibraryTask : IrisTask() {
 }

@@ -11,5 +11,5 @@ import com.hantasmate.iris.plugin.IrisExtension
  * @author tabuyos
  * @since 2022/7/25
  */
-abstract class IrisLibraryExtension : IrisExtension {
+abstract class IrisLibraryExtension : IrisExtension() {
 }

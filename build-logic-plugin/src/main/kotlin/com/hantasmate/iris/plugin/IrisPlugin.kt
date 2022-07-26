@@ -12,8 +12,6 @@ import org.gradle.api.Project
  * @author tabuyos
  * @since 2022/7/25
  */
-interface IrisPlugin : Plugin<Project> {
-  override fun apply(target: Project) {
-    TODO("Not yet implemented")
-  }
+abstract class IrisPlugin : Plugin<Project> {
+  override fun apply(project: Project) {}
 }

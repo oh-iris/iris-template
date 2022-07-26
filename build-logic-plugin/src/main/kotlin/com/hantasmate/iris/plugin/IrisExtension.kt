@@ -11,6 +11,6 @@ import org.gradle.api.provider.Property
  * @author tabuyos
  * @since 2022/7/25
  */
-interface IrisExtension {
-  val name: Property<String>
+abstract class IrisExtension {
+  abstract val name: Property<String>
 }

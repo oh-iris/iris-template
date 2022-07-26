@@ -3,11 +3,17 @@
  */
 package com.hantasmate.iris.plugin
 
+import org.gradle.api.DefaultTask
+
 /**
  * IrisTask
  *
  * @author tabuyos
  * @since 2022/7/25
  */
-interface IrisTask {
+abstract class IrisTask : DefaultTask() {
+
+  init {
+    this.group = "iris"
+  }
 }

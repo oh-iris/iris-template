@@ -3,11 +3,13 @@
  */
 package com.hantasmate.iris.plugin.application
 
+import com.hantasmate.iris.plugin.IrisTask
+
 /**
  * IrisApplicationTask
  *
  * @author tabuyos
  * @since 2022/7/25
  */
-class IrisApplicationTask {
+class IrisApplicationTask : IrisTask() {
 }
