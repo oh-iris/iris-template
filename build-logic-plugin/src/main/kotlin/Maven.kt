@@ -1,6 +1,3 @@
-import org.gradle.api.artifacts.repositories.MavenArtifactRepository
-import java.net.URI
-
 /*
  * copyright(c) 2018-2022 tabuyos all right reserved.
  */

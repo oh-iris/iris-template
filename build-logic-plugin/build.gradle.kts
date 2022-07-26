@@ -3,7 +3,6 @@ plugins {
   // Convention plugins are build scripts in 'src/main'
   // that automatically become available as plugins in the main build.
   `kotlin-dsl`
-  `java-gradle-plugin`
 }
 
 repositories {
@@ -21,6 +20,16 @@ gradlePlugin {
     create("iris-base-plugin") {
       id = "com.hantasmate.iris.plugin.base"
       implementationClass = "com.hantasmate.iris.plugin.base.IrisBasePlugin"
+    }
+
+    create("iris-application-plugin") {
+      id = "com.hantasmate.iris.plugin.application"
+      implementationClass = "com.hantasmate.iris.plugin.application.IrisApplicationPlugin"
+    }
+
+    create("iris-library-plugin") {
+      id = "com.hantasmate.iris.plugin.library"
+      implementationClass = "com.hantasmate.iris.plugin.library.IrisLibraryPlugin"
     }
   }
 }

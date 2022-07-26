@@ -5,7 +5,15 @@
  */
 
 plugins {
-  id("iris.java-library-conventions")
+//  id("com.hantasmate.iris.plugin.library")
+  `java-library`
+  `kotlin-dsl`
+}
+
+repositories {
+  // Use the plugin portal to apply community plugins in convention plugins.
+  gradlePluginPortal()
+  mavenCentral()
 }
 
 dependencies {

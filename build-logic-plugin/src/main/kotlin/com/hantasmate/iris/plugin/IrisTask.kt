@@ -4,6 +4,7 @@
 package com.hantasmate.iris.plugin
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.TaskAction
 
 /**
  * IrisTask
@@ -14,6 +15,12 @@ import org.gradle.api.DefaultTask
 abstract class IrisTask : DefaultTask() {
 
   init {
-    this.group = "iris"
+    group = "iris"
+    description = "Iris Task for Project"
+  }
+
+  @TaskAction
+  open fun taskAction() {
+    println("Thanks for using the Iris plugin.")
   }
 }

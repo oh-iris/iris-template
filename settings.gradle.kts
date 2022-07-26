@@ -6,6 +6,4 @@ includeBuild("build-logic-plugin")
 
 rootProject.name = "iris-template"
 
-// include("app", "list", "utilities")
-
-include("list")
+ include("app", "list", "utilities")
