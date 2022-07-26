@@ -8,10 +8,10 @@ plugins {
   id("com.hantasmate.iris.plugin.base")
 }
 
-//irisBase {
-//  name.set("123")
-//  version.set(321)
-//}
+irisBase {
+  name.set("123")
+  version.set(321)
+}
 //
 //println(irisBase.name.get())
 //println(irisBase.version.get())
