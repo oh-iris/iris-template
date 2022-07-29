@@ -21,11 +21,13 @@ abstract class IrisBaseResolveDependenciesTask : IrisTask() {
 
   @TaskAction
   fun resolveDependencies() {
-    project.rootProject.allprojects {
-      val configurations: Set<Configuration> = project.buildscript.configurations + project.configurations
-      configurations
-        .filter { predicate: Configuration -> predicate.isCanBeResolved }
-        .forEach { configuration: Configuration -> configuration.resolve() }
+    doLast {
+      project.rootProject.allprojects {
+        val configurations: Set<Configuration> = project.buildscript.configurations + project.configurations
+        configurations
+          .filter { predicate: Configuration -> predicate.isCanBeResolved }
+          .forEach { configuration: Configuration -> configuration.resolve() }
+      }
     }
   }
 }

@@ -5,9 +5,14 @@ package com.hantasmate.iris.plugin.base
 
 import Maven
 import com.hantasmate.iris.plugin.IrisPlugin
+import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.configure
 import java.io.File
 import java.net.URI
 
@@ -29,6 +34,8 @@ abstract class IrisBasePlugin : IrisPlugin() {
     handleTask(project)
 
     handleRepository(project)
+
+    handleDependency(project)
   }
 
   /**
@@ -43,6 +50,15 @@ abstract class IrisBasePlugin : IrisPlugin() {
    */
   private fun handleExtension(project: Project) {
     val extension = project.extensions.create(extensionName, IrisBaseExtension::class)
+    val javaPluginExtension = project.extensions.getByName<JavaPluginExtension>("java")
+    project.extensions.configure(JavaPluginExtension::class) { ext ->
+      ext.modularity.inferModulePath.set(true)
+      ext.sourceCompatibility = JavaVersion.VERSION_17
+      ext.targetCompatibility = JavaVersion.VERSION_17
+      ext.toolchain { chain ->
+        chain.languageVersion.set(JavaLanguageVersion.of(17))
+      }
+    }
   }
 
   /**
@@ -53,6 +69,12 @@ abstract class IrisBasePlugin : IrisPlugin() {
       greeting.set("Welcome to Iris World.")
     }
     project.tasks.register<IrisBaseResolveDependenciesTask>("resolveDependencies")
+    project.tasks.withType(JavaCompile::class) {
+      it.modularity.inferModulePath.set(true)
+      it.options.isWarnings = true
+      it.options.encoding = "UTF-8"
+      it.options.release.set(17)
+    }
   }
 
   /**
@@ -68,6 +90,13 @@ abstract class IrisBasePlugin : IrisPlugin() {
     project.repositories.mavenCentral()
     project.repositories.google()
     project.repositories.mavenLocal()
+  }
+
+  /**
+   * Handle the default dependency for this project
+   */
+  private fun handleDependency(project: Project) {
+    // project.dependencies.add()
   }
 
   /**
