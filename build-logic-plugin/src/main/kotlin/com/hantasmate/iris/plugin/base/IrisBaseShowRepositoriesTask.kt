@@ -4,7 +4,6 @@
 package com.hantasmate.iris.plugin.base
 
 import com.hantasmate.iris.plugin.IrisTask
-import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.TaskAction
 
 /**
@@ -21,11 +20,9 @@ abstract class IrisBaseShowRepositoriesTask : IrisTask() {
 
   @TaskAction
   fun resolveDependencies() {
-    doLast {
-      println("All repositories:")
-      project.repositories.forEach {
-        println(it.name)
-      }
+    println("All repositories:")
+    project.repositories.forEach {
+      println(it.name)
     }
   }
 }

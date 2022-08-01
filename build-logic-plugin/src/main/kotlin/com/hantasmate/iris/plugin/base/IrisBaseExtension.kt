@@ -4,6 +4,7 @@
 package com.hantasmate.iris.plugin.base
 
 import com.hantasmate.iris.plugin.IrisExtension
+import org.gradle.api.Action
 import org.gradle.api.provider.Property
 
 /**

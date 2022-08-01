@@ -4,12 +4,14 @@
 package com.hantasmate.iris.plugin.base
 
 import Maven
+import com.hantasmate.iris.dsl.configure
 import com.hantasmate.iris.plugin.IrisPlugin
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.*
 import org.gradle.kotlin.dsl.configure
@@ -36,6 +38,8 @@ abstract class IrisBasePlugin : IrisPlugin() {
     handleRepository(project)
 
     handleDependency(project)
+
+    handleNewProject(project)
   }
 
   /**
@@ -49,15 +53,26 @@ abstract class IrisBasePlugin : IrisPlugin() {
    * Handle the default extension for this project, making it configurable
    */
   private fun handleExtension(project: Project) {
-    val extension = project.extensions.create(extensionName, IrisBaseExtension::class)
-    val javaPluginExtension = project.extensions.getByName<JavaPluginExtension>("java")
-    project.extensions.configure(JavaPluginExtension::class) { ext ->
-      ext.modularity.inferModulePath.set(true)
-      ext.sourceCompatibility = JavaVersion.VERSION_17
-      ext.targetCompatibility = JavaVersion.VERSION_17
-      ext.toolchain { chain ->
-        chain.languageVersion.set(JavaLanguageVersion.of(17))
+    val baseExtension = project.extensions.create(extensionName, IrisBaseExtension::class)
+
+    baseExtension.configure {
+    }
+    // override default settings
+    project.extensions.configure(JavaPluginExtension::class) {
+      modularity.inferModulePath.set(true)
+      sourceCompatibility = JavaVersion.VERSION_17
+      targetCompatibility = JavaVersion.VERSION_17
+      toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
       }
+    }
+  }
+
+  private fun handleNewProject(project: Project) {
+    project.rootProject.allprojects.forEach { subproject ->
+      handlePlugin(subproject)
+      val extension = subproject.extensions.getByType(JavaPluginExtension::class)
+      buildDirectory(extension)
     }
   }
 
@@ -69,11 +84,17 @@ abstract class IrisBasePlugin : IrisPlugin() {
       greeting.set("Welcome to Iris World.")
     }
     project.tasks.register<IrisBaseResolveDependenciesTask>("resolveDependencies")
+    project.tasks.register<IrisBaseShowRepositoriesTask>("showRepositories")
+    project.tasks.withType(Test::class) {
+      useJUnitPlatform()
+      jvmArgs("--illegal-access=deny")
+      jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
+    }
     project.tasks.withType(JavaCompile::class) {
-      it.modularity.inferModulePath.set(true)
-      it.options.isWarnings = true
-      it.options.encoding = "UTF-8"
-      it.options.release.set(17)
+      modularity.inferModulePath.set(true)
+      options.isWarnings = true
+      options.encoding = "UTF-8"
+      options.release.set(17)
     }
   }
 
@@ -112,5 +133,30 @@ abstract class IrisBasePlugin : IrisPlugin() {
       }
     }
     return file.delete()
+  }
+
+  /**
+   * build project struct of directory
+   *
+   * @param extension extension for java plugin
+   */
+  private fun buildDirectory(extension: JavaPluginExtension) {
+    extension.sourceSets.forEach {
+      createNewFolder(it.java.srcDirs)
+      createNewFolder(it.resources.srcDirs)
+    }
+  }
+
+  /**
+   * create new folder if not exist
+   *
+   * @param files file sources
+   */
+  private fun createNewFolder(files: Set<File>) {
+    files.forEach {
+      if (!it.exists()) {
+        it.mkdirs()
+      }
+    }
   }
 }
