@@ -4,17 +4,19 @@
 package com.hantasmate.iris.plugin.base
 
 import Maven
+import Version
 import com.hantasmate.iris.dsl.configure
 import com.hantasmate.iris.plugin.IrisPlugin
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.plugins.quality.CheckstyleExtension
+import org.gradle.api.plugins.quality.CheckstylePlugin
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.*
-import org.gradle.kotlin.dsl.configure
 import java.io.File
 import java.net.URI
 
@@ -47,6 +49,7 @@ abstract class IrisBasePlugin : IrisPlugin() {
    */
   private fun handlePlugin(project: Project) {
     project.pluginManager.apply(JavaPlugin::class)
+    project.pluginManager.apply(CheckstylePlugin::class)
   }
 
   /**
@@ -56,15 +59,25 @@ abstract class IrisBasePlugin : IrisPlugin() {
     val baseExtension = project.extensions.create(extensionName, IrisBaseExtension::class)
 
     baseExtension.configure {
+      it.removeParentSrc.set(true)
     }
     // override default settings
-    project.extensions.configure(JavaPluginExtension::class) {
+    // project.extensions.configure(JavaPluginExtension::class) {
+    project.extensions.configure<JavaPluginExtension> {
       modularity.inferModulePath.set(true)
-      sourceCompatibility = JavaVersion.VERSION_17
-      targetCompatibility = JavaVersion.VERSION_17
+      sourceCompatibility = JavaVersion.toVersion(Version.javaVersion)
+      targetCompatibility = JavaVersion.toVersion(Version.javaVersion)
       toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(Version.javaVersion))
       }
+    }
+    println(project.buildscript.sourceFile)
+    project.extensions.configure<CheckstyleExtension> {
+      toolVersion = "${Version.javaVersion}"
+      maxWarnings = 0
+      isIgnoreFailures = false
+      isShowViolations = true
+      config = project.rootProject.resources.text.fromFile("config/checkstyle/checkstyle.xml")
     }
   }
 
@@ -85,16 +98,16 @@ abstract class IrisBasePlugin : IrisPlugin() {
     }
     project.tasks.register<IrisBaseResolveDependenciesTask>("resolveDependencies")
     project.tasks.register<IrisBaseShowRepositoriesTask>("showRepositories")
-    project.tasks.withType(Test::class) {
+    project.tasks.withType<Test> {
       useJUnitPlatform()
       jvmArgs("--illegal-access=deny")
       jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
     }
-    project.tasks.withType(JavaCompile::class) {
+    project.tasks.withType<JavaCompile> {
       modularity.inferModulePath.set(true)
       options.isWarnings = true
       options.encoding = "UTF-8"
-      options.release.set(17)
+      options.release.set(Version.javaVersion)
     }
   }
 
@@ -146,6 +159,19 @@ abstract class IrisBasePlugin : IrisPlugin() {
       createNewFolder(it.resources.srcDirs)
     }
   }
+
+  // private fun buildScript(extension: IrisBaseExtension) {
+  //   File file = new File("${projectDir}${File.separator}build.gradle")
+  //   if (!file.exists()) {
+  //     file.createNewFile()
+  //   }
+  //   if (extension.removeParentSrc.get()) {
+  //     file = new File("${file.getParentFile().getParent()}${File.separator}src")
+  //     if (file.exists()) {
+  //       deleteDirectory(file)
+  //     }
+  //   }
+  // }
 
   /**
    * create new folder if not exist

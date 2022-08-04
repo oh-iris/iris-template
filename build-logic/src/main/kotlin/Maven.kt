@@ -8,12 +8,8 @@
  * @since 2022/7/26
  */
 object Maven {
-  val aliyunCentral = AliyunCentral
-  val aliyunPublic = AliyunPublic
-  val tencentPublic = TencentPublic
-  val huaweiPublic = HuaweiPublic
 
-  val repositories = listOf(aliyunCentral, aliyunPublic, tencentPublic, huaweiPublic)
+  val repositories = listOf(AliyunCentral, AliyunPublic, TencentPublic, HuaweiPublic)
 
   object AliyunCentral : Repository {
     override val url = "https://maven.aliyun.com/repository/central/"
@@ -34,9 +30,4 @@ object Maven {
     override val url = "https://repo.huaweicloud.com/repository/maven/"
     override val name = "HuaweiPublic"
   }
-}
-
-interface Repository {
-  val url: String
-  val name: String
 }

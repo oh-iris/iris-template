@@ -15,4 +15,5 @@ import org.gradle.api.provider.Property
  */
 abstract class IrisBaseExtension : IrisExtension() {
   abstract val version: Property<Int>
+  abstract val removeParentSrc: Property<Boolean>
 }
