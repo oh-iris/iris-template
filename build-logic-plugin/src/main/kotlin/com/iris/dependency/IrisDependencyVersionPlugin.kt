@@ -10,7 +10,7 @@ import org.gradle.kotlin.dsl.repositories
 /**
  * IrisDependencyVersionPlugin
  *
- * @author bjliu(a.k.a tabuyos)
+ * @author tabuyos
  * @since 2022/7/25
  */
 class IrisDependencyVersionPlugin : Plugin<Project> {

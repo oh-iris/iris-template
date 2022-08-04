@@ -1,7 +1,7 @@
 /**
  * Iris
  *
- * @author bjliu(a.k.a tabuyos)
+ * @author tabuyos
  * @since 2022/7/25
  */
 object Iris {
