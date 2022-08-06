@@ -11,8 +11,10 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.api.plugins.quality.CheckstylePlugin
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
@@ -29,8 +31,12 @@ import java.net.URI
 abstract class IrisBasePlugin : IrisPlugin() {
 
   private val extensionName: String = "irisBase"
+  abstract val project: Property<Project>
 
   override fun apply(project: Project) {
+    this.project.set(project)
+    FileRef.of(project)
+
     handlePlugin(project)
 
     handleExtension(project)
@@ -65,15 +71,14 @@ abstract class IrisBasePlugin : IrisPlugin() {
     // project.extensions.configure(JavaPluginExtension::class) {
     project.extensions.configure<JavaPluginExtension> {
       modularity.inferModulePath.set(true)
-      sourceCompatibility = JavaVersion.toVersion(Version.javaVersion)
-      targetCompatibility = JavaVersion.toVersion(Version.javaVersion)
+      sourceCompatibility = JavaVersion.toVersion(Version.java)
+      targetCompatibility = JavaVersion.toVersion(Version.java)
       toolchain {
-        languageVersion.set(JavaLanguageVersion.of(Version.javaVersion))
+        languageVersion.set(JavaLanguageVersion.of(Version.java))
       }
     }
-    println(project.buildscript.sourceFile)
     project.extensions.configure<CheckstyleExtension> {
-      toolVersion = "${Version.javaVersion}"
+      toolVersion = Version.checkstyleTool
       maxWarnings = 0
       isIgnoreFailures = false
       isShowViolations = true
@@ -83,9 +88,11 @@ abstract class IrisBasePlugin : IrisPlugin() {
 
   private fun handleNewProject(project: Project) {
     project.rootProject.allprojects.forEach { subproject ->
+      if (subproject.projectDir.exists()) {
+        return
+      }
       handlePlugin(subproject)
-      val extension = subproject.extensions.getByType(JavaPluginExtension::class)
-      buildDirectory(extension)
+      buildDirectory(subproject)
     }
   }
 
@@ -98,6 +105,11 @@ abstract class IrisBasePlugin : IrisPlugin() {
     }
     project.tasks.register<IrisBaseResolveDependenciesTask>("resolveDependencies")
     project.tasks.register<IrisBaseShowRepositoriesTask>("showRepositories")
+    project.tasks.withType<Checkstyle> {
+      source("src")
+      include("**/*.java")
+      exclude("**/gen/**", "**/test/**", "**/build/**")
+    }
     project.tasks.withType<Test> {
       useJUnitPlatform()
       jvmArgs("--illegal-access=deny")
@@ -107,7 +119,7 @@ abstract class IrisBasePlugin : IrisPlugin() {
       modularity.inferModulePath.set(true)
       options.isWarnings = true
       options.encoding = "UTF-8"
-      options.release.set(Version.javaVersion)
+      options.release.set(Version.java)
     }
   }
 
@@ -151,27 +163,27 @@ abstract class IrisBasePlugin : IrisPlugin() {
   /**
    * build project struct of directory
    *
-   * @param extension extension for java plugin
+   * @param project project
    */
-  private fun buildDirectory(extension: JavaPluginExtension) {
-    extension.sourceSets.forEach {
+  private fun buildDirectory(project: Project) {
+    val javaPluginExtension = project.extensions.getByType(JavaPluginExtension::class)
+    javaPluginExtension.sourceSets.forEach {
       createNewFolder(it.java.srcDirs)
       createNewFolder(it.resources.srcDirs)
     }
+    buildScript(project)
   }
 
-  // private fun buildScript(extension: IrisBaseExtension) {
-  //   File file = new File("${projectDir}${File.separator}build.gradle")
-  //   if (!file.exists()) {
-  //     file.createNewFile()
-  //   }
-  //   if (extension.removeParentSrc.get()) {
-  //     file = new File("${file.getParentFile().getParent()}${File.separator}src")
-  //     if (file.exists()) {
-  //       deleteDirectory(file)
-  //     }
-  //   }
-  // }
+  private fun buildScript(project: Project) {
+    var file = File("${project.projectDir}${File.separator}build.gradle.kts")
+    if (!file.exists()) {
+      file.createNewFile()
+    }
+    file = File("${file.parentFile.parent}${File.separator}src")
+    if (file.exists()) {
+      deleteDirectory(file)
+    }
+  }
 
   /**
    * create new folder if not exist

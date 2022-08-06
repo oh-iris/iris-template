@@ -5,5 +5,6 @@
  * @since 2022/7/25
  */
 object Google {
-  const val material = "com.google.android.material:material:1.2.0-alpha05"
+  const val guava = "com.google.guava:guava:${Version.guava}"
+  const val guavaBom = "com.google.guava:guava-bom:${Version.guava}"
 }

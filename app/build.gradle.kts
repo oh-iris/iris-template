@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-//  implementation("org.apache.commons:commons-text")
+  implementation(Google.guava)
   implementation(project(":library"))
 }
 
