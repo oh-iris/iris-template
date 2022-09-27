@@ -88,11 +88,10 @@ abstract class IrisBasePlugin : IrisPlugin() {
 
   private fun handleNewProject(project: Project) {
     project.rootProject.allprojects.forEach { subproject ->
-      if (subproject.projectDir.exists()) {
-        return
+      if (!subproject.projectDir.exists()) {
+        handlePlugin(subproject)
+        buildDirectory(subproject)
       }
-      handlePlugin(subproject)
-      buildDirectory(subproject)
     }
   }
 
