@@ -1,0 +1,55 @@
+/**
+ * Version
+ *
+ * @author tabuyos
+ * @since 2022/7/25
+ */
+object Version {
+  const val java: Int = 8
+
+  const val checkstyleTool: String = "10.3.2"
+  const val guava: String = "31.1-jre"
+  const val gson: String = "2.9.1"
+  const val bcprovJdk18on: String = "1.72"
+  const val grpc: String = "1.50.2"
+  const val protobuf: String = "3.21.9"
+  const val protobufPlugin: String = "0.9.1"
+  const val shardingsphere: String = "5.2.0"
+  const val spring: String = "5.3.23"
+  const val springBoot: String = "2.7.4"
+  const val springCloud: String = "2021.0.4"
+  const val alibabaCloud: String = "2021.0.4.0"
+  const val redisson: String = "3.17.7"
+  const val okta: String = "2.1.6"
+  const val druid: String = "1.2.13"
+  const val streamEx: String = "0.8.1"
+  const val joor: String = "0.9.14"
+  const val jool: String = "0.9.14"
+  const val fugue: String = "4.7.1"
+  const val functionalJava: String = "5.0"
+  const val assertj: String = "2.2.18"
+  const val jackson: String = "2.14.0-rc2"
+  const val assertjCore: String = "3.23.1"
+  const val assertjGuava: String = "3.4.0"
+  const val log4j2: String = "2.19.0"
+  const val reactor: String = "2020.0.24"
+  const val okhttp: String = "4.9.3"
+  const val vertx: String = "4.3.4"
+  const val junit: String = "5.9.1"
+  const val mockito: String = "4.8.0"
+  const val jmockit: String = "1.49"
+  const val testcontainers: String = "1.17.6"
+  const val netty: String = "4.1.84.Final"
+  const val commonsEmail: String = "1.5"
+  const val grpcSpringBootStarter: String = "2.13.1.RELEASE"
+  const val ipAddress: String = "5.3.4"
+  const val jnanoid: String = "2.0.0"
+  const val hutool: String = "5.8.9"
+  const val lombok: String = "1.18.24"
+  const val jetbrainsAnnotations: String = "23.0.0"
+  const val jasypt: String = "3.0.3"
+  const val oauth2AuthorizationServer: String = "0.3.1"
+  const val alipaySdkJava: String = "4.34.39.ALL"
+  const val aliyunSdkOss: String = "3.15.2"
+  const val restdocsApiSpec: String = "0.16.2"
+}

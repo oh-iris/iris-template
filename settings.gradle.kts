@@ -1,8 +1,9 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("VERSION_CATALOGS")
 
-// explicitly specify composite build project by include
-includeBuild("build-logic")
+// 复合构建, 用于统一依赖管理, 版本更新
+includeBuild("gradle-dependencies")
+includeBuild("gradle-plugin")
 
 rootProject.name = "iris-template"
 

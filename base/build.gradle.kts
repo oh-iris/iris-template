@@ -1,3 +1,3 @@
 plugins {
-  id("com.hantasmate.iris.plugin.base")
+  id("com.hantasmate.iris.gradle.plugin.common")
 }

@@ -1,7 +1,3 @@
 plugins {
-  id("com.hantasmate.iris.plugin.library")
-}
-
-dependencies {
-  implementation(FileRef.getLibrary("assertj-core"))
+  id("com.hantasmate.iris.gradle.plugin.library")
 }
